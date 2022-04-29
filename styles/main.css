@@ -32,14 +32,13 @@ input[type=number]{
 }
 
 #Logo{
-	animation: animacio 1s ease-in;
+	animation: animacio 1s linear reverse infinite;
 }
 
-@keyframes animacio{
-	to{
-		stroke-dashoffset: 0;
-	}
-}
+@keyframes animacio {
+	0%   { transform: rotate(0deg) }
+	100% { transform: rotate(360deg) }
+  }
 
 p{
 	text-align: center;

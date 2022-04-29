@@ -32,26 +32,25 @@ input[type=number]{
 }
 
 .Logo{
-	
 	display:block;
 	margin-left: auto;
 	margin-right: auto;
 	animation: animacio 1s linear reverse infinite;
+	
 	animation-play-state: paused;
-	
-	
 }
 
 .Logo:hover{
 	animation-play-state: running;
-
 }
 
 
 @keyframes animacio {
 	0%   { transform: rotate(0deg) }
 	100% { transform: rotate(360deg) }
-  }
+
+}
+
 
 p{
 	text-align: center;

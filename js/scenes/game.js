@@ -1,16 +1,17 @@
-
 class GameScene extends Phaser.Scene {
     constructor (){
         super('GameScene');
         this.speed = 100;
         this.player = null;
         this.cursors = null;
+        this.ball = null;
     }
 
     preload (){	
 		this.load.image('Personatge', '../resources/Personatge.png');
 		this.load.image('SpriteMovimiento', '../resources/SpriteMovimiento.svg');
         this.load.image('Mapa', '../resources/MapaJPG.jpg');
+        this.load.image('Pilota', '../resources/Ball2.png');
 	}
 	
     create (){
@@ -22,12 +23,19 @@ class GameScene extends Phaser.Scene {
         this.player.setScale(0.5);
 		this.player.setCollideWorldBounds(true);
 
+        this.ball = this.physics.add.sprite(250 ,370,'Pilota');
+        this.ball.setScale(0.5);
+        this.player.setCollideWorldBounds(true);
+
+
         this.background.displayWidth = this.sys.canvas.width;
         this.background.displayHeight = this.sys.canvas.height;
         
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        //Col·lisions
+        this.physics.add.collider(this.player, this.ball);
 	}
 	
 	update (){

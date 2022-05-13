@@ -5,6 +5,7 @@ class GameScene extends Phaser.Scene {
         this.player = null;
         this.cursors = null;
         this.ball = null;
+        this.ground = null;
     }
 
     preload (){	
@@ -12,6 +13,7 @@ class GameScene extends Phaser.Scene {
 		this.load.image('SpriteMovimiento', '../resources/SpriteMovimiento.svg');
         this.load.image('Mapa', '../resources/MapaJPG.jpg');
         this.load.image('Pilota', '../resources/Ball2.png');
+        this.load.image('Terra', '../resources/Terra.png');
 	}
 	
     create (){
@@ -35,8 +37,11 @@ class GameScene extends Phaser.Scene {
         */    
 	    
         this.background = this.add.image(400,300,'Mapa');
-   
-	    this.player = this.physics.add.sprite(150 ,370,'Personatge');
+
+	    this.ground = this.physics.add.staticGroup();
+		this.ground.create(0, 450, 'ground').setScale(100, 1).refreshBody();
+
+        this.player = this.physics.add.sprite(150 ,370,'Personatge');
 
         this.player.setScale(0.5);
 		this.player.setCollideWorldBounds(true);
@@ -54,15 +59,19 @@ class GameScene extends Phaser.Scene {
 
         //Col·lisions
         this.physics.add.collider(this.player, this.ball);
+        this.physics.add.collider(this.player, this.ground);this.physics.add.collider(this.player, this.ground);
+        this.physics.add.collider(this.ball, this.ground);
 	}
 	
 	update (){
         if (this.cursors.left.isDown){
-            this.player.setVelocityX(-160);
+            this.player.flipX=true;
+            this.player.setVelocityX(-250);
             //this.player.anims.play('left', true);
         }
         else if (this.cursors.right.isDown){
-            this.player.setVelocityX(160);
+            this.player.flipX=false;
+            this.player.setVelocityX(250);
             //this.player.anims.play('right', true);
         }
         else{
@@ -71,7 +80,8 @@ class GameScene extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown && this.player.body.touching.down)
-            this.player.setVelocityY(-330);
-    
+            this.player.setVelocityY(-350);
+
+        
     }
 }

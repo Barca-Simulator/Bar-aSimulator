@@ -15,7 +15,25 @@ class GameScene extends Phaser.Scene {
 	}
 	
     create (){
-
+	
+	//Menu Pausa
+        /*
+        pause_label = game.add.text(w - 100, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
+        pause_label.inputEnabled = true;
+        pause_label.events.onInputUp.add(function () {
+            // When the paus button is pressed, we pause the game
+            game.paused = true;
+    
+            // Then add the menu
+            menu = game.add.sprite(w/2, h/2, 'menu');
+            menu.anchor.setTo(0.5, 0.5);
+    
+            // And a label to illustrate which menu item was chosen. (This is not necessary)
+            choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
+            choiseLabel.anchor.setTo(0.5, 0.5);
+        });
+        */    
+	    
         this.background = this.add.image(400,300,'Mapa');
    
 	    this.player = this.physics.add.sprite(150 ,370,'Personatge');

@@ -25,7 +25,7 @@ class GameScene extends Phaser.Scene {
 
         this.ball = this.physics.add.sprite(250 ,370,'Pilota');
         this.ball.setScale(0.5);
-        this.player.setCollideWorldBounds(true);
+        this.ball.setCollideWorldBounds(true);
 
 
         this.background.displayWidth = this.sys.canvas.width;

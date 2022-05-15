@@ -19,24 +19,6 @@ class GameScene extends Phaser.Scene {
 	}
 	
     create (){
-	
-	//Menu Pausa
-        /*
-        pause_label = game.add.text(w - 100, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
-        pause_label.inputEnabled = true;
-        pause_label.events.onInputUp.add(function () {
-            // When the paus button is pressed, we pause the game
-            game.paused = true;
-    
-            // Then add the menu
-            menu = game.add.sprite(w/2, h/2, 'menu');
-            menu.anchor.setTo(0.5, 0.5);
-    
-            // And a label to illustrate which menu item was chosen. (This is not necessary)
-            choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
-            choiseLabel.anchor.setTo(0.5, 0.5);
-        });
-        */    
 	    
         this.background = this.add.image(400,300,'Mapa');
 
@@ -63,6 +45,48 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.ball);
         this.physics.add.collider(this.player, this.ground);this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.ball, this.ground);
+
+        //Menu Pausa
+        
+        gameIsPaused = false;
+        
+        pausa = this.add.tileSprite(600, 25, 'Pausa').setOrigin(0);
+        pausa.setInteractive();
+        pausa.aplha = 0.5
+        resume = this.add.tileSprite(600, 25, 'Play').setOrigin(0);
+        resume.setInteractive();
+        resume.depth = 2;
+        
+        list = [pausa, resume];
+        list.forEach(l => {
+            l.setVisible(false);
+            l.setActive(false);
+        });
+
+        pausa.on('pointerdown', function(){
+            if (gameIsPaused===false) {
+                gameIsPaused = true;
+                pausa.setVisible(false);
+                pause.setActive(false);
+                list.forEach(l => {
+                    l.setVisible(true);
+                    l.setActive(true);
+                });
+            }
+        });
+
+        resume.on('pointerdown', function(){
+            if (gameIsPaused===true) {
+                gameIsPaused = false;
+                pause.setVisible(true);
+                pause.setActive(true);
+                list.forEach(l => {
+                    l.setVisible(false);
+                    l.setActive(false);
+                });
+            }
+        })
+        
 	}
 	
 	update (){
@@ -84,6 +108,7 @@ class GameScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player.body.touching.down)
             this.player.setVelocityY(-350);
 
+        
         
     }
 }

@@ -14,6 +14,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('Mapa', '../resources/MapaJPG.jpg');
         this.load.image('Pilota', '../resources/Ball2.png');
         this.load.image('Terra', '../resources/Terra.png');
+        this.load.image('Pausa', '../resources/Pausa.png')
 	}
 	
     create (){

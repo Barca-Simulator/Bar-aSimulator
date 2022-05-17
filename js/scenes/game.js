@@ -7,6 +7,7 @@ class GameScene extends Phaser.Scene {
         this.ball = null;
         this.ground = null;
         this.pause_label = null;
+        this.enemy = null;
     }
 
     preload (){	
@@ -15,6 +16,8 @@ class GameScene extends Phaser.Scene {
         this.load.image('Mapa', '../resources/MapaJPG.jpg');
         this.load.image('Pilota', '../resources/Ball2.png');
         this.load.image('Terra', '../resources/Terra.png');
+        this.load.image('Enemic', '../resources/Enemic.png');
+
 	}
 	
     create (){
@@ -29,6 +32,11 @@ class GameScene extends Phaser.Scene {
         this.player.setScale(0.5);
 		this.player.setCollideWorldBounds(true);
 
+        this.enemy = this.physics.add.sprite(450 ,370,'Enemic');
+
+        this.enemy.setScale(0.5);
+		this.enemy.setCollideWorldBounds(true);
+
         this.ball = this.physics.add.sprite(250 ,370,'Pilota');
         this.ball.setScale(0.5);
         this.ball.setCollideWorldBounds(true);
@@ -42,8 +50,12 @@ class GameScene extends Phaser.Scene {
 
         //Col·lisions
         this.physics.add.collider(this.player, this.ball);
-        this.physics.add.collider(this.player, this.ground);this.physics.add.collider(this.player, this.ground);
+        this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.ball, this.ground);
+
+        this.physics.add.collider(this.enemy, this.ball);
+        this.physics.add.collider(this.enemy, this.ground);
+        this.physics.add.collider(this.enemy, this.player);
 
         //Pausa
        
@@ -68,12 +80,12 @@ class GameScene extends Phaser.Scene {
 	update (){
         if (this.cursors.left.isDown){
             this.player.flipX=true;
-            this.player.setVelocityX(-250);
+            this.player.setVelocityX(-200);
             //this.player.anims.play('left', true);
         }
         else if (this.cursors.right.isDown){
             this.player.flipX=false;
-            this.player.setVelocityX(250);
+            this.player.setVelocityX(200);
             //this.player.anims.play('right', true);
         }
         else{
@@ -84,6 +96,19 @@ class GameScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player.body.touching.down)
             this.player.setVelocityY(-350);
 
-          
+        
+        //Moviment Enemic
+        if (this.ball.body.position.x > this.enemy.body.position.x){
+            this.enemy.setVelocityX(200);
+           /* if(this.ball.body.position.x - this.enemy.body.position.x < 20){
+                this.enemy.setVelocityY(-350);
+            }*/
+        }
+        else{
+            this.enemy.setVelocityX(-200);
+            /*if(y_bola > y_enemy && this.enemy.body.touching.down){
+                this.enemy.setVelocityY(-350)
+            }*/
+        }
     }
 }

@@ -1,22 +1,26 @@
 <!DOCTYPE html> 
 <html>
 	<head>
-		<link rel="stylesheet" href="./styles/main.css">
-		<script src="./js/menu_controller.js"></script>
+		<link rel="stylesheet" href="../styles/main.css">
+		<script src="../js/loader.js"></script>
+		<script src="../js/menu_controller.js"></script>
 		<title> Barca Simulator - Menu </title>
 	</head>
 	<body>
         <h1>Escull Jugador</h1>
-		<button class="jugador-button" onclick="phaser_game()"> 
+		<button class="button-player" onclick="phaser_game()"> 
 			Baix
+			<br>
             Alcada 1 - Velocitat 3
 		</button>
-		<button class="jugador-button" onclick="start_game()"> 
+		<button class="button-player" onclick="phaser_game()"> 
 			Mitja
+			<br>
             Alcada 2 - Velocitat 2
 		</button>
-		<button class="jugador-button" onclick="load()"> 
+		<button style="background: url(../resources/MapaJPG.jpg)" class="button-player" onclick="phaser_game()"> 
 			Alt
+			<br>
             Alcada 3 - Velocitat 1
 		</button>
 		

@@ -73,3 +73,10 @@ button.menu-object:hover:not(:active){
 	border: 4px solid #4e4caf;
 }
 
+.button-player{
+	font-size: 18px;
+	width: 200px;
+	height: 200px;
+	border: 4px solid #4e4caf;
+
+}

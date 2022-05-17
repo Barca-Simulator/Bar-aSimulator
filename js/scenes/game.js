@@ -6,6 +6,7 @@ class GameScene extends Phaser.Scene {
         this.cursors = null;
         this.ball = null;
         this.ground = null;
+        this.pause_label = null;
     }
 
     preload (){	
@@ -14,8 +15,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('Mapa', '../resources/MapaJPG.jpg');
         this.load.image('Pilota', '../resources/Ball2.png');
         this.load.image('Terra', '../resources/Terra.png');
-        this.load.image('Pausa', '../resources/Pausa.png');
-        this.load.image('Play', '../resources/Play.png');
 	}
 	
     create (){
@@ -46,46 +45,23 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.ground);this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.ball, this.ground);
 
-        //Menu Pausa
-        
-        gameIsPaused = false;
-        
-        pausa = this.add.tileSprite(600, 25, 'Pausa').setOrigin(0);
-        pausa.setInteractive();
-        pausa.aplha = 0.5
-        resume = this.add.tileSprite(600, 25, 'Play').setOrigin(0);
-        resume.setInteractive();
-        resume.depth = 2;
-        
-        list = [pausa, resume];
-        list.forEach(l => {
-            l.setVisible(false);
-            l.setActive(false);
+        //Pausa
+       
+        const pauseButton = this.add.text(650, 0, 'Pause', { fill: '#fff' });
+        pauseButton.setInteractive();
+
+        const resumeButton = this.add.text(725, 0, 'Resume', { fill: '#fff' });
+        resumeButton.setInteractive();
+
+        pauseButton.on('pointerdown', () => { 
+            this.ball.body.moves = false;
+            this.player.body.moves = false;
         });
 
-        pausa.on('pointerdown', function(){
-            if (gameIsPaused===false) {
-                gameIsPaused = true;
-                pausa.setVisible(false);
-                pause.setActive(false);
-                list.forEach(l => {
-                    l.setVisible(true);
-                    l.setActive(true);
-                });
-            }
+        resumeButton.on('pointerdown', () => { 
+            this.ball.body.moves = true;
+            this.player.body.moves = true;
         });
-
-        resume.on('pointerdown', function(){
-            if (gameIsPaused===true) {
-                gameIsPaused = false;
-                pause.setVisible(true);
-                pause.setActive(true);
-                list.forEach(l => {
-                    l.setVisible(false);
-                    l.setActive(false);
-                });
-            }
-        })
         
 	}
 	
@@ -108,7 +84,6 @@ class GameScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player.body.touching.down)
             this.player.setVelocityY(-350);
 
-        
-        
+          
     }
 }

@@ -29,15 +29,16 @@ class GameScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(150 ,370,'Personatge');
 
-        this.player.setScale(0.5);
+        this.player.setScale(0.45);
 		this.player.setCollideWorldBounds(true);
 
         this.enemy = this.physics.add.sprite(450 ,370,'Enemic');
 
-        this.enemy.setScale(0.5);
+        this.enemy.setScale(0.45);
 		this.enemy.setCollideWorldBounds(true);
 
         this.ball = this.physics.add.sprite(250 ,370,'Pilota');
+        
         this.ball.setScale(0.5);
         this.ball.setCollideWorldBounds(true);
 
@@ -100,15 +101,29 @@ class GameScene extends Phaser.Scene {
         //Moviment Enemic
         if (this.ball.body.position.x > this.enemy.body.position.x){
             this.enemy.setVelocityX(200);
-           /* if(this.ball.body.position.x - this.enemy.body.position.x < 20){
+            if(this.ball.body.position.x - this.enemy.body.position.x < 20 && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350);
-            }*/
+            }
         }
         else{
             this.enemy.setVelocityX(-200);
-            /*if(y_bola > y_enemy && this.enemy.body.touching.down){
+            if(this.ball.body.position.y > this.ball.body.position.y && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350)
-            }*/
+            }
+        }
+
+        if (this.ball.body.position.x > this.player.body.position.x && this.ball.body.touching.down){
+            this.ball.setVelocityY(-350);
+        }
+
+        if (this.ball.body.position.x < 20){
+            this.ball.setVelocityX(300);
+            this.ball.setVelocityY(-100);
+        }
+
+        if (this.ball.body.position.x > 700){
+            this.ball.setVelocityX(-300);
+            this.ball.setVelocityY(100);
         }
     }
 }

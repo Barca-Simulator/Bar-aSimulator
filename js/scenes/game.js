@@ -68,11 +68,13 @@ class GameScene extends Phaser.Scene {
         pauseButton.on('pointerdown', () => { 
             this.ball.body.moves = false;
             this.player.body.moves = false;
+            this.enemy.body.moves = false;
         });
 
         resumeButton.on('pointerdown', () => { 
             this.ball.body.moves = true;
             this.player.body.moves = true;
+            this.enemy.body.moves = true;
         });
         
 	}

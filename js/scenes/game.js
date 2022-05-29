@@ -63,11 +63,11 @@ class GameScene extends Phaser.Scene {
         const pauseButton = this.add.text(650, 0, 'Pause', { fill: '#fff' });
         pauseButton.setInteractive();
 
-        const resumeButton = this.add.text(380, 250, 'Resume', { fill: '#fff' });
+        const resumeButton = this.add.text(375, 245, 'Resume', { fill: '#fff' });
         resumeButton.setInteractive();
         resumeButton.visible = false;
 
-        const exitButton = this.add.text(380, 270, 'Exit', { fill: '#fff' });
+        const exitButton = this.add.text(375, 275, 'Exit', { fill: '#fff' });
         exitButton.setInteractive();
         exitButton.visible = false;
 
@@ -85,6 +85,10 @@ class GameScene extends Phaser.Scene {
             this.enemy.body.moves = true;
             resumeButton.visible = false;
             exitButton.visible = false;
+        });
+
+        exitButton.on('pointerdown', () => { 
+            loadpage("../index.html");
         });
         
 	}

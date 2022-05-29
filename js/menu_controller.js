@@ -7,7 +7,7 @@ function start_game(){
 }
 
 function choose_character(){
-	loadpage("./html/Escollir Personatge.html");
+	loadpage("./html/EscollirPersonatge.html");
 }
 
 function phaser_game(){

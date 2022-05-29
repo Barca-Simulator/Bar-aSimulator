@@ -63,19 +63,28 @@ class GameScene extends Phaser.Scene {
         const pauseButton = this.add.text(650, 0, 'Pause', { fill: '#fff' });
         pauseButton.setInteractive();
 
-        const resumeButton = this.add.text(725, 0, 'Resume', { fill: '#fff' });
+        const resumeButton = this.add.text(380, 250, 'Resume', { fill: '#fff' });
         resumeButton.setInteractive();
+        resumeButton.visible = false;
+
+        const exitButton = this.add.text(380, 270, 'Exit', { fill: '#fff' });
+        exitButton.setInteractive();
+        exitButton.visible = false;
 
         pauseButton.on('pointerdown', () => { 
             this.ball.body.moves = false;
             this.player.body.moves = false;
             this.enemy.body.moves = false;
+            resumeButton.visible = true;
+            exitButton.visible = true;
         });
 
         resumeButton.on('pointerdown', () => { 
             this.ball.body.moves = true;
             this.player.body.moves = true;
             this.enemy.body.moves = true;
+            resumeButton.visible = false;
+            exitButton.visible = false;
         });
         
 	}

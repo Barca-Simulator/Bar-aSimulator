@@ -1,15 +1,13 @@
-function start_game(){
-	name = prompt("User name");
-	
-	sessionStorage.setItem("username", name);
-	
-	loadpage("./html/game.html");
-}
 
 function choose_character(){
 	loadpage("./html/EscollirPersonatge.html");
 }
 
+function cargar_partida() {
+	localStorage.getItem("save", JSON.stringify(saveObject));
+	loadpage("./phasergame.html");
+}
+ 
 function phaser_game(){
 	loadpage("./phasergame.html");
 }
@@ -22,11 +20,5 @@ function exit (){
 	loadpage("./index.html");
 }
 
-function options(){
-	loadpage("./html/options.html");
-}
 
-function load(){
-	loadpage("./html/load.html");
-}
 

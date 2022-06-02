@@ -8,6 +8,17 @@ class GameScene extends Phaser.Scene {
         this.ground = null;
         this.pause_label = null;
         this.enemy = null;
+        this.playerScore = 0
+        this.enemyScore = 0
+        var saveObject = {
+            player: this.player,
+            enemy: this.enemy,
+            ball: this.ball,
+	        player_score: this.playerScore,
+	        enemy_score: this.enemyScore
+            
+        };
+
     }
 
     preload (){	
@@ -58,7 +69,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.enemy, this.ground);
         this.physics.add.collider(this.enemy, this.player);
 
-        //Pausa
+        //Pausa i guardar partida
        
         const pauseButton = this.add.text(650, 0, 'Pause', { fill: '#fff' });
         pauseButton.setInteractive();
@@ -67,7 +78,11 @@ class GameScene extends Phaser.Scene {
         resumeButton.setInteractive();
         resumeButton.visible = false;
 
-        const exitButton = this.add.text(375, 275, 'Exit', { fill: '#fff' });
+        const saveButton = this.add.text(375, 275, 'Save', { fill: '#fff' });
+        saveButton.setInteractive();
+        saveButton.visible = false;
+
+        const exitButton = this.add.text(375, 300, 'Exit', { fill: '#fff' });
         exitButton.setInteractive();
         exitButton.visible = false;
 
@@ -77,6 +92,11 @@ class GameScene extends Phaser.Scene {
             this.enemy.body.moves = false;
             resumeButton.visible = true;
             exitButton.visible = true;
+            saveButton.visible = true;
+        });
+
+        saveButton.on('pointerdown', () => { 
+            localStorage.setItem("save", JSON.stringify(saveObject));
         });
 
         resumeButton.on('pointerdown', () => { 
@@ -85,11 +105,16 @@ class GameScene extends Phaser.Scene {
             this.enemy.body.moves = true;
             resumeButton.visible = false;
             exitButton.visible = false;
+            saveButton.visible = false;
         });
 
         exitButton.on('pointerdown', () => { 
             loadpage("../index.html");
         });
+
+       
+        
+        
         
 	}
 	

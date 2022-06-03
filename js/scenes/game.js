@@ -8,6 +8,8 @@ class GameScene extends Phaser.Scene {
         this.ground = null;
         this.pause_label = null;
         this.enemy = null;
+        this.Playerlabel = null;
+        this.Enemylabel = null;
         this.playerScore = 0
         this.enemyScore = 0
         var saveObject = {
@@ -36,19 +38,22 @@ class GameScene extends Phaser.Scene {
         this.background = this.add.image(400,300,'Mapa');
 
 	    this.ground = this.physics.add.staticGroup();
-		this.ground.create(0, 450, 'ground').setScale(100, 1).refreshBody();
+		this.ground.create(0, 450, 'Terra').setScale(100, 1).refreshBody();
+        //Mur sobre les porteries
+        this.ground.create(0, 190, '').setScale(5, 0.5).refreshBody();
+        this.ground.create(800, 190, '').setScale(5, 0.5).refreshBody();
 
         this.player = this.physics.add.sprite(150 ,370,'Personatge');
 
         this.player.setScale(0.45);
 		this.player.setCollideWorldBounds(true);
 
-        this.enemy = this.physics.add.sprite(450 ,370,'Enemic');
+        this.enemy = this.physics.add.sprite(650 ,370,'Enemic');
 
         this.enemy.setScale(0.45);
 		this.enemy.setCollideWorldBounds(true);
 
-        this.ball = this.physics.add.sprite(250 ,370,'Pilota');
+        this.ball = this.physics.add.sprite(400 ,200,'Pilota');
         
         this.ball.setScale(0.5);
         this.ball.setCollideWorldBounds(true);
@@ -60,6 +65,9 @@ class GameScene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
+        this.Enemylabel = this.add.text(450, 60, this.playerScore, { fill: '#fff' })
+        
         //Col·lisions
         this.physics.add.collider(this.player, this.ball);
         this.physics.add.collider(this.player, this.ground);
@@ -119,6 +127,31 @@ class GameScene extends Phaser.Scene {
 	}
 	
 	update (){
+       
+
+        if (this.ball.body.position.x < 50 && this.ball.body.position.y > 200){
+            this.ball.body.position.x = 375
+            this.enemyScore += 1
+            this.Enemylabel.setText(this.enemyScore)
+            
+            this.ball.body.position.x = 400
+            this.ball.body.position.y = 200
+            
+            this.enemy.body.position.x = 650
+            this.player.body.position.x = 150
+        }
+        else if (this.ball.body.position.x > 725 && this.ball.body.position.y > 200){
+            this.ball.body.position.x = 375
+            this.playerScore += 1
+            this.Playerlabel.setText(this.playerScore)
+
+            this.ball.body.position.x = 400
+            this.ball.body.position.y = 200
+            
+            this.enemy.body.position.x = 650
+            this.player.body.position.x = 150
+        }
+        
         if (this.cursors.left.isDown){
             this.player.flipX=true;
             this.player.setVelocityX(-200);
@@ -141,12 +174,14 @@ class GameScene extends Phaser.Scene {
         //Moviment Enemic
         if (this.ball.body.position.x > this.enemy.body.position.x){
             this.enemy.setVelocityX(200);
+            this.enemy.flipX=false;
             if(this.ball.body.position.x - this.enemy.body.position.x < 20 && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350);
             }
         }
         else{
             this.enemy.setVelocityX(-200);
+            this.enemy.flipX=true;
             if(this.ball.body.position.y > this.ball.body.position.y && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350)
             }
@@ -161,9 +196,10 @@ class GameScene extends Phaser.Scene {
             this.ball.setVelocityY(-100);
         }
 
-        if (this.ball.body.position.x > 700){
+        if (this.ball.body.position.x > 750){
             this.ball.setVelocityX(-300);
             this.ball.setVelocityY(100);
         }
+
     }
 }

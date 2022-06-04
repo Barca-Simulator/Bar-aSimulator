@@ -10,6 +10,7 @@ class GameScene extends Phaser.Scene {
         this.enemy = null;
         this.Playerlabel = null;
         this.Enemylabel = null;
+        this.Finishlabel = null;
         this.playerScore = 0
         this.enemyScore = 0
         var saveObject = {
@@ -40,8 +41,8 @@ class GameScene extends Phaser.Scene {
 	    this.ground = this.physics.add.staticGroup();
 		this.ground.create(0, 400, '').setScale(100, 0).refreshBody();
         //Mur sobre les porteries
-        this.ground.create(0, 190, '').setScale(5, 0).refreshBody();
-        this.ground.create(800, 190, '').setScale(5, 0).refreshBody();
+        this.ground.create(0, 170, '').setScale(5, 0).refreshBody();
+        this.ground.create(800, 170, '').setScale(5, 0).refreshBody();
 
         this.player = this.physics.add.sprite(150 ,300,'Personatge').setCircle(78, 8);
 
@@ -70,7 +71,8 @@ class GameScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
-        this.Enemylabel = this.add.text(450, 60, this.playerScore, { fill: '#fff' })
+        this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
+        this.Finishlabel = this.add.text(300, 200, '', { fill: '#fff' })
         
         //Col·lisions
         this.physics.add.collider(this.player, this.ball);
@@ -135,6 +137,16 @@ class GameScene extends Phaser.Scene {
         if(this.ball.body.touching.down){
             this.ball.body.setVelocityY(-350)
         }*/
+        if (this.enemyScore == 3 || this.playerScore == 3){
+            if (this.enemyScore < this.playerScore){
+                this.Finishlabel.setText('Has Guanyat el Partit!!!')
+                loadpage()
+            }
+            else{
+                this.Finishlabel.setText('Has Perdut el Partit!!!')
+                loadpage()
+            }
+        }
 
         if (this.ball.body.position.x < 50 && this.ball.body.position.y > 200){
             this.ball.body.position.x = 375

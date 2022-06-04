@@ -1,3 +1,5 @@
+const Phaser = require("phaser");
+
 class GameScene extends Phaser.Scene {
     constructor (){
         super('GameScene');
@@ -38,25 +40,29 @@ class GameScene extends Phaser.Scene {
         this.background = this.add.image(400,300,'Mapa');
 
 	    this.ground = this.physics.add.staticGroup();
-		this.ground.create(0, 450, 'Terra').setScale(100, 1).refreshBody();
+		this.ground.create(0, 400, '').setScale(100, 0).refreshBody();
         //Mur sobre les porteries
-        this.ground.create(0, 190, '').setScale(5, 0.5).refreshBody();
-        this.ground.create(800, 190, '').setScale(5, 0.5).refreshBody();
+        this.ground.create(0, 190, '').setScale(5, 0).refreshBody();
+        this.ground.create(800, 190, '').setScale(5, 0).refreshBody();
 
-        this.player = this.physics.add.sprite(150 ,370,'Personatge');
+        this.player = this.physics.add.sprite(150 ,300,'Personatge').setCircle(78, 8);
 
         this.player.setScale(0.45);
 		this.player.setCollideWorldBounds(true);
+        
 
-        this.enemy = this.physics.add.sprite(650 ,370,'Enemic');
+        this.enemy = this.physics.add.sprite(650 ,300,'Enemic').setCircle(78, 8);
 
         this.enemy.setScale(0.45);
 		this.enemy.setCollideWorldBounds(true);
 
-        this.ball = this.physics.add.sprite(400 ,200,'Pilota');
+        this.ball = this.physics.add.sprite(400 ,200,'Pilota').setCircle(55, 0, -50);
         
         this.ball.setScale(0.5);
         this.ball.setCollideWorldBounds(true);
+        
+        this.ball.body.setBounce(1);
+        
 
 
         this.background.displayWidth = this.sys.canvas.width;
@@ -120,11 +126,19 @@ class GameScene extends Phaser.Scene {
             loadpage("../index.html");
         });
 
+        //this.ball.body.moves = false;
+        //this.player.body.moves = false;
+        this.enemy.body.moves = false;
+
         
 	}
 	
 	update (){
-       
+       /*
+        if(this.ball.body.touching.down){
+            this.ball.body.setVelocityY(-350)
+        }*/
+      
 
         if (this.ball.body.position.x < 50 && this.ball.body.position.y > 200){
             this.ball.body.position.x = 375
@@ -171,7 +185,7 @@ class GameScene extends Phaser.Scene {
         //Moviment Enemic
         if (this.ball.body.position.x > this.enemy.body.position.x){
             this.enemy.setVelocityX(200);
-            this.enemy.flipX=false;
+            //this.enemy.flipX=false;
             if(this.ball.body.position.x - this.enemy.body.position.x < 20 && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350);
             }
@@ -184,9 +198,7 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        if (this.ball.body.position.x > this.player.body.position.x && this.ball.body.touching.down){
-            this.ball.setVelocityY(-350);
-        }
+    
 
         if (this.ball.body.position.x < 20){
             this.ball.setVelocityX(300);

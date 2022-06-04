@@ -1,5 +1,3 @@
-const Phaser = require("phaser");
-
 class GameScene extends Phaser.Scene {
     constructor (){
         super('GameScene');
@@ -128,9 +126,8 @@ class GameScene extends Phaser.Scene {
 
         //this.ball.body.moves = false;
         //this.player.body.moves = false;
-        this.enemy.body.moves = false;
+        //this.enemy.body.moves = false;
 
-        
 	}
 	
 	update (){
@@ -138,7 +135,6 @@ class GameScene extends Phaser.Scene {
         if(this.ball.body.touching.down){
             this.ball.body.setVelocityY(-350)
         }*/
-      
 
         if (this.ball.body.position.x < 50 && this.ball.body.position.y > 200){
             this.ball.body.position.x = 375

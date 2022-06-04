@@ -120,9 +120,6 @@ class GameScene extends Phaser.Scene {
             loadpage("../index.html");
         });
 
-       
-        
-        
         
 	}
 	

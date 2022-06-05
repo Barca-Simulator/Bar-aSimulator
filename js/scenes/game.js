@@ -2,6 +2,7 @@ class GameScene extends Phaser.Scene {
     constructor (){
         super('GameScene');
         this.speed = 100;
+        this.background = null;
         this.player = null;
         this.cursors = null;
         this.ball = null;
@@ -129,26 +130,30 @@ class GameScene extends Phaser.Scene {
         });
 
         //final partit
-        continueButton.on('pointerdown', () => { 
-            if (this.enemyScore > this.playerScore){
+        continueButton.on('pointerdown', () => {
+            if (this.enemyScore > this.playerScore || this.victories == 3){
                 loadpage("../index.html");
             }
-            else {
+            else{
                 this.enemyScore = 0
                 this.playerScore = 0
                 this.create()
             }
         });
 
-        if (this.victories == 3){
-            this.Finishlabel.setText('Felicitats ets el guanyador del torneig!!!')
-            continueButton.setText('Continuar')
-            continueButton.visible = true;
-        }
-        
         if (this.playerScore == 3){
-            this.victories += 1;
-            this.Finishlabel.setText('Passes a la seguent ronda!!!')
+            this.ball.body.moves = false;
+            this.player.body.moves = false;
+            this.enemy.body.moves = false;
+            if (this.victories == 1){
+                this.Finishlabel.setText('Passes a la semifinal!!!')
+            }
+            else if (this.victories == 2){
+                this.Finishlabel.setText('Passes a la Final!!!')
+            }
+            else{
+                this.Finishlabel.setText('Felicitats ets el guanyador del torneig!!!')
+            }
             continueButton.setText('Continuar')
             continueButton.visible = true;
         }
@@ -158,34 +163,31 @@ class GameScene extends Phaser.Scene {
             continueButton.visible = true;
         }
 
-        //3partides victoria torneig
+        //continueButton.visible = false;
 
         //this.ball.body.moves = false;
         //this.player.body.moves = false;
-        //this.enemy.body.moves = false;
+        this.enemy.body.moves = false;
 
 	}
-	
+    
 	update (){
     
-        if (this.enemyScore == 3 || this.playerScore == 3){
-            this.create()
-        }
         
         //enemic marca gol
         if (this.ball.body.position.x < 50 && this.ball.body.position.y > 170){
             this.enemyScore += 1
             this.Enemylabel.setText(this.enemyScore)
-            
             this.create()
         }
         //player marca gol
         else if (this.ball.body.position.x > 725 && this.ball.body.position.y > 170){
             this.playerScore += 1
             this.Playerlabel.setText(this.playerScore)
-
+            if (this.playerScore == 3){
+                this.victories += 1;
+            }
             this.create()
-            
         }
         
         if (this.cursors.left.isDown){

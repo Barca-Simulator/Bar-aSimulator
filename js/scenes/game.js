@@ -24,7 +24,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('Pilota', '../resources/Ball2.png');
         this.load.image('Terra', '../resources/Terra.png');
         this.load.image('Enemic', '../resources/Enemic.png');
-
 	}
 	
     create (){
@@ -213,6 +212,7 @@ class GameScene extends Phaser.Scene {
 
     }
 
+    //Funcio que guarda els elements de la partida al local storage
     saveFile(){
         var saveObject = {
             player: this.player,
@@ -225,6 +225,7 @@ class GameScene extends Phaser.Scene {
         localStorage.setItem('saveObject',JSON.stringify(saveObject));
     };
     
+    //Funcio que carrega els elements de la partida guardats al local storage
     loadFile (){
         var object = JSON.parse(localStorage.getItem('saveObject'));
         GameScene.player = object.player,

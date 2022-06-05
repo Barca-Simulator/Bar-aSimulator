@@ -4,7 +4,7 @@ function choose_character(){
 }
 
 function cargar_partida() {
-	loadpage("./phasergame.html");
+	loadpage("./html/phasergame.html");
 }
  
 function phaser_game(){

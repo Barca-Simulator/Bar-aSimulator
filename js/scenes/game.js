@@ -13,14 +13,7 @@ class GameScene extends Phaser.Scene {
         this.Finishlabel = null;
         this.playerScore = 0
         this.enemyScore = 0
-        var saveObject = {
-            player: this.player,
-            enemy: this.enemy,
-            ball: this.ball,
-	        player_score: this.playerScore,
-	        enemy_score: this.enemyScore
-            
-        };
+        
 
     }
 
@@ -110,7 +103,7 @@ class GameScene extends Phaser.Scene {
         });
 
         saveButton.on('pointerdown', () => { 
-            localStorage.setItem("save", JSON.stringify(saveObject));
+            this.saveFile();
         });
 
         resumeButton.on('pointerdown', () => { 
@@ -140,11 +133,11 @@ class GameScene extends Phaser.Scene {
         if (this.enemyScore == 3 || this.playerScore == 3){
             if (this.enemyScore < this.playerScore){
                 this.Finishlabel.setText('Has Guanyat el Partit!!!')
-                loadpage("./index.html");
+                loadpage("../index.html");
             }
             else{
                 this.Finishlabel.setText('Has Perdut el Partit!!!')
-                loadpage("./index.html");
+                loadpage("../index.html");
             }
         }
 
@@ -219,4 +212,26 @@ class GameScene extends Phaser.Scene {
         }
 
     }
+
+    saveFile(){
+        var saveObject = {
+            player: this.player,
+            enemy: this.enemy,
+            ball: this.ball,
+	        player_score: this.playerScore,
+	        enemy_score: this.enemyScore
+            
+        };
+        localStorage.setItem('saveObject',JSON.stringify(saveObject));
+    };
+    
+    loadFile (){
+        var object = JSON.parse(localStorage.getItem('saveObject'));
+        GameScene.player = object.player,
+        GameScene.enemy = object.enemy,
+        GameScene.ball = object.ball,
+	    GameScene.player_score = object.playerScore,
+	    GameScene.enemy_score = object.enemyScore
+    };
+
 }

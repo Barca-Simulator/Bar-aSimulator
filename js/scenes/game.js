@@ -1,4 +1,13 @@
 class GameScene extends Phaser.Scene {
+    /*
+    let l_partida = null;
+	if (sessionStorage.idPartida && localStorage.partides){
+		let arrayPartides = JSON.parse(localStorage.partides);
+		if (sessionStorage.idPartida < arrayPartides.length)
+			l_partida = arrayPartides[sessionStorage.idPartida];
+	}
+    */
+
     constructor (){
         super('GameScene');
         this.speed = 100;
@@ -16,8 +25,9 @@ class GameScene extends Phaser.Scene {
         this.enemyScore = 0
         this.victories = 0
         
-
-    }
+	}
+   
+    
 
     preload (){	
 		this.load.image('Personatge', '../resources/Personatge.png');
@@ -29,7 +39,39 @@ class GameScene extends Phaser.Scene {
 	}
 	
     create (){
-	    
+
+        //Si hi ha partida carrega les coses d'aquesta partida, si no ho carrega tot nou
+	    /*
+        if (l_partida){
+            this.player = l_partida.player;
+            this.enemy = l_partida.enemy;
+            this.ball = l_partida.ball;
+            this.playerScore = l_partida.playerScore;
+            this.enemyScore = l_partida.enemyScore;
+        }
+        else{
+            this.player = this.physics.add.sprite(150 ,360,'Personatge').setCircle(80, 8, 20);
+
+            this.player.setScale(0.45);
+		    this.player.setCollideWorldBounds(true);
+            this.enemy = this.physics.add.sprite(650 ,360,'Enemic').setCircle(80, 8, 20);
+
+            this.enemy.setScale(0.45);
+		    this.enemy.setCollideWorldBounds(true);
+
+            this.ball = this.physics.add.sprite(400 ,160,'Pilota').setCircle(55, 0, -40);
+        
+            this.ball.setScale(0.5);
+            //this.ball.setCollideWorldBounds(true);
+        
+            this.ball.body.setBounce(1);
+
+            this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
+            this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
+        }
+        */
+       
+        
         this.background = this.add.image(400,300,'Mapa');
 
 	    this.ground = this.physics.add.staticGroup();
@@ -42,8 +84,6 @@ class GameScene extends Phaser.Scene {
 
         this.player.setScale(0.45);
 		this.player.setCollideWorldBounds(true);
-        
-
         this.enemy = this.physics.add.sprite(650 ,360,'Enemic').setCircle(80, 8, 20);
 
         this.enemy.setScale(0.45);
@@ -55,6 +95,10 @@ class GameScene extends Phaser.Scene {
         //this.ball.setCollideWorldBounds(true);
         
         this.ball.body.setBounce(1);
+
+        this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
+        this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
+
         
 
 
@@ -64,8 +108,7 @@ class GameScene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
-        this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
+        
         this.Finishlabel = this.add.text(300, 200, '', { fill: '#fff' })
         .setStyle({ backgroundColor: '#111' })
 
@@ -162,12 +205,14 @@ class GameScene extends Phaser.Scene {
             continueButton.setText('Sortir')
             continueButton.visible = true;
         }
+        
+        sessionStorage.clear();
 
         //continueButton.visible = false;
 
         //this.ball.body.moves = false;
         //this.player.body.moves = false;
-        this.enemy.body.moves = false;
+        //this.enemy.body.moves = false;
 
 	}
     
@@ -241,7 +286,7 @@ class GameScene extends Phaser.Scene {
 
     //Funcio que guarda els elements de la partida al local storage
     saveFile(){
-        var saveObject = {
+        var partida = {
             player: this.player,
             enemy: this.enemy,
             ball: this.ball,
@@ -249,7 +294,14 @@ class GameScene extends Phaser.Scene {
 	        enemy_score: this.enemyScore
             
         };
-        localStorage.setItem('saveObject',JSON.stringify(saveObject));
+        let arrayPartides = [];
+		if(localStorage.partides){
+			arrayPartides = JSON.parse(localStorage.partides);
+			if(!Array.isArray(arrayPartides)) arrayPartides = [];
+		}
+		arrayPartides.push(partida);
+		localStorage.partides = JSON.stringify(arrayPartides);
+       
     };
     
     //Funcio que carrega els elements de la partida guardats al local storage

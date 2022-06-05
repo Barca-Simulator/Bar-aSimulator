@@ -13,6 +13,7 @@ class GameScene extends Phaser.Scene {
         this.Finishlabel = null;
         this.playerScore = 0
         this.enemyScore = 0
+        this.victories = 0
         
 
     }
@@ -67,7 +68,7 @@ class GameScene extends Phaser.Scene {
         this.Finishlabel = this.add.text(300, 200, '', { fill: '#fff' })
         .setStyle({ backgroundColor: '#111' })
 
-        const continueButton = this.add.text(400, 260, 'Continue', { fill: '#fff' })
+        const continueButton = this.add.text(400, 260, '', { fill: '#fff' })
         .setOrigin(0.5)
         .setPadding(10)
         .setStyle({ backgroundColor: '#111' })
@@ -129,20 +130,39 @@ class GameScene extends Phaser.Scene {
 
         //final partit
         continueButton.on('pointerdown', () => { 
-            loadpage("../index.html");
+            if (this.enemyScore > this.playerScore){
+                loadpage("../index.html");
+            }
+            else {
+                this.enemyScore = 0
+                this.playerScore = 0
+                this.create()
+            }
         });
+
+        if (this.victories == 3){
+            this.Finishlabel.setText('Felicitats ets el guanyador del torneig!!!')
+            continueButton.setText('Continuar')
+            continueButton.visible = true;
+        }
+        
+        if (this.playerScore == 3){
+            this.victories += 1;
+            this.Finishlabel.setText('Passes a la seguent ronda!!!')
+            continueButton.setText('Continuar')
+            continueButton.visible = true;
+        }
+        else if ((this.enemyScore == 3)){
+            this.Finishlabel.setText('Has sigut descalificat!!!')
+            continueButton.setText('Sortir')
+            continueButton.visible = true;
+        }
+
+        //3partides victoria torneig
 
         //this.ball.body.moves = false;
         //this.player.body.moves = false;
         //this.enemy.body.moves = false;
-        if (this.playerScore == 3){
-            this.Finishlabel.setText('Has Guanyat el Partit!!!')
-            continueButton.visible = true;
-        }
-        else if ((this.enemyScore == 3)){
-            this.Finishlabel.setText('Has Perdut el Partit!!!')
-            continueButton.visible = true;
-        }
 
 	}
 	

@@ -1,3 +1,11 @@
+var options_data = {
+	cards:2, dificulty:"hard"
+};
+
+var json = localStorage.getItem("config");
+	if(json)
+		options_data = JSON.parse(json);
+
 class GameScene extends Phaser.Scene {
     /*
     let l_partida = null;
@@ -7,6 +15,7 @@ class GameScene extends Phaser.Scene {
 			l_partida = arrayPartides[sessionStorage.idPartida];
 	}
     */
+   
 
     constructor (){
         super('GameScene');
@@ -24,6 +33,8 @@ class GameScene extends Phaser.Scene {
         this.playerScore = 0
         this.enemyScore = 0
         this.victories = 0
+        this.dificultatlvl = 20;
+        this.temps = 1300
         
 	}
    
@@ -51,26 +62,36 @@ class GameScene extends Phaser.Scene {
         }
         else{
             this.player = this.physics.add.sprite(150 ,360,'Personatge').setCircle(80, 8, 20);
-
             this.player.setScale(0.45);
 		    this.player.setCollideWorldBounds(true);
             this.enemy = this.physics.add.sprite(650 ,360,'Enemic').setCircle(80, 8, 20);
-
             this.enemy.setScale(0.45);
 		    this.enemy.setCollideWorldBounds(true);
-
             this.ball = this.physics.add.sprite(400 ,160,'Pilota').setCircle(55, 0, -40);
         
             this.ball.setScale(0.5);
             //this.ball.setCollideWorldBounds(true);
         
             this.ball.body.setBounce(1);
-
             this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
             this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
         }
         */
-       
+        switch (options_data.dificulty){
+			case 'easy':
+				this.temps = 2000;
+				this.dificultatlvl = 10;
+				break;
+			case 'normal':
+				this.temps = 1300;
+				this.dificultatlvl = 20;
+				break;
+			case 'hard':
+				this.temps = 700;
+				this.dificultatlvl = 30;
+				break;
+		
+		}
         
         this.background = this.add.image(400,300,'Mapa');
 
@@ -201,6 +222,9 @@ class GameScene extends Phaser.Scene {
             continueButton.visible = true;
         }
         else if ((this.enemyScore == 3)){
+            this.ball.body.moves = false;
+            this.player.body.moves = false;
+            this.enemy.body.moves = false;
             this.Finishlabel.setText('Has sigut descalificat!!!')
             continueButton.setText('Sortir')
             continueButton.visible = true;
@@ -238,16 +262,16 @@ class GameScene extends Phaser.Scene {
         if (this.cursors.left.isDown){
             this.player.flipX=true;
             this.player.setVelocityX(-200);
-            //this.player.anims.play('left', true);
+          
         }
         else if (this.cursors.right.isDown){
             this.player.flipX=false;
             this.player.setVelocityX(200);
-            //this.player.anims.play('right', true);
+          
         }
         else{
             this.player.setVelocityX(0);
-            //this.player.anims.play('turn');
+         
         }
 
         if (this.cursors.up.isDown && this.player.body.touching.down)
@@ -257,7 +281,7 @@ class GameScene extends Phaser.Scene {
         //Moviment Enemic
         if (this.ball.body.position.x > this.enemy.body.position.x){
             this.enemy.setVelocityX(200);
-            //this.enemy.flipX=false;
+            this.enemy.flipX=false;
             if(this.ball.body.position.x - this.enemy.body.position.x < 20 && this.enemy.body.touching.down){
                 this.enemy.setVelocityY(-350);
             }

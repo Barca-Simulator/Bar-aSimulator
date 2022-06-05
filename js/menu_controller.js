@@ -1,5 +1,5 @@
 
-function choose_character(){
+function opcions(){
 	loadpage("./html/EscollirPersonatge.html");
 }
 

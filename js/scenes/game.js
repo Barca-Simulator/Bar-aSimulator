@@ -36,21 +36,21 @@ class GameScene extends Phaser.Scene {
         this.ground.create(0, 170, '').setScale(5, 0).refreshBody();
         this.ground.create(800, 170, '').setScale(5, 0).refreshBody();
 
-        this.player = this.physics.add.sprite(150 ,300,'Personatge').setCircle(78, 8);
+        this.player = this.physics.add.sprite(150 ,360,'Personatge').setCircle(80, 8, 20);
 
         this.player.setScale(0.45);
 		this.player.setCollideWorldBounds(true);
         
 
-        this.enemy = this.physics.add.sprite(650 ,300,'Enemic').setCircle(78, 8);
+        this.enemy = this.physics.add.sprite(650 ,360,'Enemic').setCircle(80, 8, 20);
 
         this.enemy.setScale(0.45);
 		this.enemy.setCollideWorldBounds(true);
 
-        this.ball = this.physics.add.sprite(400 ,200,'Pilota').setCircle(55, 0, -50);
+        this.ball = this.physics.add.sprite(400 ,160,'Pilota').setCircle(55, 0, -40);
         
         this.ball.setScale(0.5);
-        this.ball.setCollideWorldBounds(true);
+        //this.ball.setCollideWorldBounds(true);
         
         this.ball.body.setBounce(1);
         
@@ -65,6 +65,15 @@ class GameScene extends Phaser.Scene {
         this.Playerlabel = this.add.text(340, 60, this.playerScore, { fill: '#fff' })
         this.Enemylabel = this.add.text(450, 60, this.enemyScore, { fill: '#fff' })
         this.Finishlabel = this.add.text(300, 200, '', { fill: '#fff' })
+        .setStyle({ backgroundColor: '#111' })
+
+        const continueButton = this.add.text(400, 260, 'Continue', { fill: '#fff' })
+        .setOrigin(0.5)
+        .setPadding(10)
+        .setStyle({ backgroundColor: '#111' })
+        .setInteractive({ useHandCursor: true })
+        .setInteractive();
+        continueButton.visible = false;
         
         //Col·lisions
         this.physics.add.collider(this.player, this.ball);
@@ -118,49 +127,45 @@ class GameScene extends Phaser.Scene {
             loadpage("../index.html");
         });
 
+        //final partit
+        continueButton.on('pointerdown', () => { 
+            loadpage("../index.html");
+        });
+
         //this.ball.body.moves = false;
         //this.player.body.moves = false;
         //this.enemy.body.moves = false;
+        if (this.playerScore == 3){
+            this.Finishlabel.setText('Has Guanyat el Partit!!!')
+            continueButton.visible = true;
+        }
+        else if ((this.enemyScore == 3)){
+            this.Finishlabel.setText('Has Perdut el Partit!!!')
+            continueButton.visible = true;
+        }
 
 	}
 	
 	update (){
-       /*
-        if(this.ball.body.touching.down){
-            this.ball.body.setVelocityY(-350)
-        }*/
+    
         if (this.enemyScore == 3 || this.playerScore == 3){
-            if (this.enemyScore < this.playerScore){
-                this.Finishlabel.setText('Has Guanyat el Partit!!!')
-                loadpage("../index.html");
-            }
-            else{
-                this.Finishlabel.setText('Has Perdut el Partit!!!')
-                loadpage("../index.html");
-            }
+            this.create()
         }
-
-        if (this.ball.body.position.x < 50 && this.ball.body.position.y > 200){
-            this.ball.body.position.x = 375
+        
+        //enemic marca gol
+        if (this.ball.body.position.x < 50 && this.ball.body.position.y > 170){
             this.enemyScore += 1
             this.Enemylabel.setText(this.enemyScore)
             
-            this.ball.body.position.x = 400
-            this.ball.body.position.y = 200
-            
-            this.enemy.body.position.x = 650
-            this.player.body.position.x = 150
+            this.create()
         }
-        else if (this.ball.body.position.x > 725 && this.ball.body.position.y > 200){
-            this.ball.body.position.x = 375
+        //player marca gol
+        else if (this.ball.body.position.x > 725 && this.ball.body.position.y > 170){
             this.playerScore += 1
             this.Playerlabel.setText(this.playerScore)
 
-            this.ball.body.position.x = 400
-            this.ball.body.position.y = 200
+            this.create()
             
-            this.enemy.body.position.x = 650
-            this.player.body.position.x = 150
         }
         
         if (this.cursors.left.isDown){

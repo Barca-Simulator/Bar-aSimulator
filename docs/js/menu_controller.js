@@ -4,7 +4,8 @@ function choose_character(){
 }
 
 function cargar_partida() {
-	localStorage.getItem("save", JSON.stringify(saveObject));
+	var object = JSON.parse(localStorage.getItem('saveObject'));
+    GameScene.object = object.object;
 	loadpage("./phasergame.html");
 }
  

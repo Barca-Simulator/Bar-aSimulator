@@ -140,11 +140,11 @@ class GameScene extends Phaser.Scene {
         if (this.enemyScore == 3 || this.playerScore == 3){
             if (this.enemyScore < this.playerScore){
                 this.Finishlabel.setText('Has Guanyat el Partit!!!')
-                loadpage()
+                loadpage("./index.html");
             }
             else{
                 this.Finishlabel.setText('Has Perdut el Partit!!!')
-                loadpage()
+                loadpage("./index.html");
             }
         }
 
